@@ -1,0 +1,97 @@
+1) DECISION TREE ALGORITHM
+str(iris) 
+
+set.seed(1234)
+ind <- sample(2, nrow(iris), replace=TRUE, prob=c(0.7, 0.3))
+trainData <- iris[ind==1,]
+testData <- iris[ind==2,]
+library(party) //for checking party package is installed or not
+install.packages("party") //for installing party package
+install.packages("partykit") //for installing partykit since ctree function is required further
+myFormula <- Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
+iris_ctree <- ctree(myFormula, data=trainData)
+table(predict(iris_ctree), trainData$Species)
+
+plot(iris_ctree) 
+
+plot(iris_ctree, type="simple")
+
+testPred <- predict(iris_ctree, newdata = testData)
+table(testPred, testData$Species) 
+
+2) ASSOCIATION ALGORITHM
+str(Titanic) 
+ 
+df <- as.data.frame(Titanic) 
+head(df) 
+ 
+titanic.raw <- NULL 
+for(i in 1:4) { titanic.raw <- cbind(titanic.raw, rep(as.character(df[,i]), df$Freq))}
+titanic.raw <- as.data.frame(titanic.raw) 
+names(titanic.raw) <- names(df)[1:4]
+dim(titanic.raw) 
+ 
+str(titanic.raw)  
+
+head(titanic.raw) 
+	
+summary(titanic.raw)
+
+3) K-NEAREST NEIGHBOUR
+library(RWeka)
+
+iris <- read.arff(system.file("arff", "iris.arff", package = "RWeka"))
+classifier <- IBk(class ~., data = iris)
+summary(classifier)
+
+classifier <- IBk(class ~ ., data = iris, control = Weka_control(K = 20, X = TRUE))
+evaluate_Weka_classifier(classifier, numFolds = 10)
+
+classifier
+
+4) NAIVE BAYES ALGORITHM
+library(e1071) 
+pairs(iris[1:4], main = "Iris Data (red=setosa,green=versicolor,blue=virginica)",pch = 21, bg = c("red", "green", "blue")[unclass(iris$Species)])
+
+data(iris)
+summary(iris)
+
+classifier<-naiveBayes(iris[,1:4], iris[,5]) 
+table(predict(classifier, iris[,-5]), iris[,5])
+
+5) TIME SERIES ANALYSIS
+a <- ts(1:30, frequency = 12, start = c (2011,3))
+print(a)
+
+str(a)
+
+attributes(a)
+
+plot(AirPassengers)
+
+f <- decompose(apts)
+f$figure
+
+plot(f$figure, type = "b", xaxt="n", xlab="")
+monthNames <- months(ISOdate(2011 ,1:12 ,1))
+axis(1, at=1:12, labels=monthNames, las=2)
+
+fit <- arima(AirPassengers, order=c(1,0,0), list(order=c(2,1,0), period=12))
+fore <- predict(fit, n.ahead=24)
+U <- fore$pred + 2*fore$se
+U <- fore$pred - 2*fore$se
+ts.plot(AirPassengers, fore$pred, U, L, col=c(1,2,4,4), lty = c(1,1,2,2))
+
+legend("topleft", c("Actual", "Forecast" ,"Error Bounds (95% Confidence)"), col=c(1,2,4), lty=c(1,1,2)
+
+
+
+
+
+
+
+
+
+ 
+
+
